@@ -1,5 +1,5 @@
 // Para poder conectarme a la url (http://localhost:3000/socket.io/socket.io.js) es necesario instalar
-import { Manager } from "socket.io-client"
+import { Manager, Socket } from "socket.io-client"
 
 
 // el socket.io-client (verificar que la version de la url coincida con la instalada)
@@ -10,5 +10,20 @@ export const connectToServer = () => {
   // conexion con el namespace "root(/)" de la aplicacion
   // La conexion mediante un socket es cliente-servidor. no se puede hablar directamente con otro cliente
   const socket = manager.socket('/')
-  console.log(socket);
+  
+
+  addListeners(socket);
 }
+
+const addListeners = (socket: Socket) => {
+  const serverStatusLabel = document.querySelector('#server-status')!;
+
+  // socket.on se usa para escuchar el servidor y socket.emit se usa para hablar con el mismo
+  socket.on('connect',() => {
+    serverStatusLabel.innerHTML = 'connected'
+  })
+  socket.on('disconnect',() => {
+    serverStatusLabel.innerHTML = 'disconnected'
+  })
+}
+
