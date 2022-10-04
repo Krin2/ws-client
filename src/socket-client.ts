@@ -1,7 +1,7 @@
 // Para poder conectarme a la url (http://localhost:3000/socket.io/socket.io.js) es necesario instalar
 import { Manager, Socket } from "socket.io-client"
 
-
+let socket: Socket;
 // el socket.io-client (verificar que la version de la url coincida con la instalada)
 export const connectToServer = (token: string) => {
   // 
@@ -12,15 +12,17 @@ export const connectToServer = (token: string) => {
     },
   }) // uri donde se puede encontrar un socket server (correspondiente a teslo-shop)
 
+  socket?.removeListener(); // limpia los listeners cada vez que se conecta si existe el socket.
   // conexion con el namespace "root(/)" de la aplicacion
   // La conexion mediante un socket es cliente-servidor. no se puede hablar directamente con otro cliente
-  const socket = manager.socket('/')
+  socket = manager.socket('/')
   
 
-  addListeners(socket);
+  addListeners();
 }
 
-const addListeners = (socket: Socket) => {
+// Elimino el socket como argumento porque al reconectarse, hace referencia al socket viejo, y ahora el socket esta de forma global
+const addListeners = () => {
   // constantes relacionadas al html.
   const serverStatusLabel = document.querySelector<HTMLLabelElement>('#server-status')!;
   const clientUl = document.querySelector<HTMLUListElement>('#client-ul')!;
