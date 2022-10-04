@@ -7,6 +7,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     // <span id="server-status">offline</span>
 
     <ul id="client-ul"></ul>
+
+    <form id="message-form">
+      <input placeholder="message" id="message-input"/>
+    </form>
   </div>
 `
 

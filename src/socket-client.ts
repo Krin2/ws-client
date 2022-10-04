@@ -16,8 +16,11 @@ export const connectToServer = () => {
 }
 
 const addListeners = (socket: Socket) => {
+  // constantes relacionadas al html.
   const serverStatusLabel = document.querySelector('#server-status')!;
   const clientUl = document.querySelector('#client-ul')!;
+  const messageForm = document.querySelector<HTMLFormElement>('#message-form')!;
+  const messageInput = document.querySelector<HTMLInputElement>('#message-input')!;
 
   // TODO: #client-ul
   // socket.on se usa para escuchar el servidor y socket.emit se usa para hablar con el mismo
@@ -33,6 +36,18 @@ const addListeners = (socket: Socket) => {
     let clientsHtml = '';
     clients.forEach((clientId: string) => clientsHtml += `<li>${ clientId }</li>`);
     clientUl.innerHTML = clientsHtml;
+  })
+
+  // Escucha del HTML
+  messageForm.addEventListener('submit', (event: any) => {
+    event.preventDefault();
+    if (messageInput.value.trim().length <= 0) return; // Si no hay nada escrito retorna
+
+    // genera un mensaje por parte de este cliente que se emite como un evento 'message-from-client'
+    socket.emit('message-from-client', { id: 'YO:', message: messageInput.value })
+
+    // limpio el campo input para un nuevo mensaje
+    messageInput.value = '';
   })
 }
 
