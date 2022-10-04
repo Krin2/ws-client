@@ -17,13 +17,22 @@ export const connectToServer = () => {
 
 const addListeners = (socket: Socket) => {
   const serverStatusLabel = document.querySelector('#server-status')!;
+  const clientUl = document.querySelector('#client-ul')!;
 
+  // TODO: #client-ul
   // socket.on se usa para escuchar el servidor y socket.emit se usa para hablar con el mismo
   socket.on('connect',() => {
     serverStatusLabel.innerHTML = 'connected'
   })
   socket.on('disconnect',() => {
     serverStatusLabel.innerHTML = 'disconnected'
+  })
+
+  // este evento ('clients-updated') se genera en la aplicacion del servidor y es escuchada por esta aplicacion.
+  socket.on('clients-updated', (clients: string[]) => {
+    let clientsHtml = '';
+    clients.forEach((clientId: string) => clientsHtml += `<li>${ clientId }</li>`);
+    clientUl.innerHTML = clientsHtml;
   })
 }
 
