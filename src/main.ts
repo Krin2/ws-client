@@ -5,7 +5,7 @@ import "./style.css";
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
     <h2>Websocket - Client </h2>
-    <input id="jwt-token" placeholder="Jason web token" />
+    <input id="jwt-token" placeholder="Json web token" />
     <button id="btn-connect">Conect</button>
     <br/>
     <span id="server-status">offline</span>
